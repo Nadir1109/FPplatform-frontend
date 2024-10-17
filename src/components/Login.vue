@@ -4,12 +4,12 @@
       <h2>Inloggen op het platform</h2>
       <form @submit.prevent="submitLogin">
         <div class="form-group">
-          <label for="username">Gebruikersnaam</label>
+          <label for="email">Email</label>
           <input
               type="text"
-              id="username"
-              v-model="username"
-              placeholder="Gebruikersnaam"
+              id="email"
+              v-model="email"
+              placeholder="Email"
               required
           />
         </div>
@@ -39,7 +39,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: '',  // Alleen gebruikersnaam
+      email: '',
       password: '',
       message: ''
     };
@@ -48,8 +48,8 @@ export default {
     async submitLogin() {
       try {
         // Maak een POST-aanvraag naar je login API
-        const response = await axios.post('http://localhost:8080/api/users/login', {
-          username: this.username,
+        const response = await axios.post('http://localhost:8080/api/auth/login', {
+          email: this.email,
           password: this.password
         });
 
@@ -67,7 +67,7 @@ export default {
       }
     },
     clearFields() {
-      this.username = '';
+      this.email = '';
       this.password = '';
     }
   }

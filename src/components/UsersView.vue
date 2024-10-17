@@ -6,7 +6,7 @@
         <thead>
         <tr>
           <th>ID</th>
-          <th>Gebruikersnaam</th>
+          <th>Naam</th>
           <th>Email</th>
           <th>Acties</th>
         </tr>
@@ -15,10 +15,10 @@
         <tr v-for="(user, index) in users" :key="user.id">
           <td>{{ user.id }}</td>
 
-          <!-- Inline bewerken: Username -->
+          <!-- Inline bewerken: Name -->
           <td>
-            <input v-if="editingIndex === index" v-model="editUserData.username" />
-            <span v-else>{{ user.username }}</span>
+            <input v-if="editingIndex === index" v-model="editUserData.name" />
+            <span v-else>{{ user.name }}</span>
           </td>
 
           <!-- Inline bewerken: Email -->
@@ -46,7 +46,7 @@ export default {
     return {
       users: [], // Hier worden de gebruikers opgeslagen
       editingIndex: null, // Houdt bij welk rijnummer momenteel wordt bewerkt
-      editUserData: { username: '', email: '' }, // Data die wordt bewerkt
+      editUserData: { name: '', email: '' }, // Data die wordt bewerkt
     };
   },
   methods: {
@@ -64,19 +64,24 @@ export default {
     editUser(index, user) {
       // Stel de huidige index in op de bewerkmodus en vul de velden
       this.editingIndex = index;
-      this.editUserData = { username: user.username, email: user.email };
+      this.editUserData = { name: user.name, email: user.email };
     },
     saveUser(id) {
       // API-aanroep om de gebruiker bij te werken
+      const data = {
+        email: this.editUserData.email,
+        name: this.editUserData.name,
+        id: id
+      }
       fetch(`http://localhost:8080/api/users/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(this.editUserData),
+        body: JSON.stringify(data),
       })
           .then(() => {
-            this.users[this.editingIndex].username = this.editUserData.username;
+            this.users[this.editingIndex].name = this.editUserData.name;
             this.users[this.editingIndex].email = this.editUserData.email;
             this.editingIndex = null; // Stop met bewerken
           })

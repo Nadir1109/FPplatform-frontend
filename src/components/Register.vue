@@ -3,8 +3,8 @@
     <form class="registration-form" @submit.prevent="submitForm">
       <h1>Maak een account aan</h1>
 
-      <label for="username">Gebruikersnaam</label>
-      <input type="text" v-model="username" id="username" placeholder="Vul je gebruikersnaam in" required>
+      <label for="name">Naam</label>
+      <input type="text" v-model="name" id="name" placeholder="Vul je naam in" required>
 
       <label for="email">E-mail</label>
       <input type="email" v-model="email" id="email" placeholder="Vul je e-mail in" required>
@@ -32,7 +32,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: '',
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -52,7 +52,7 @@ export default {
       // API-aanroep om de registratie te verwerken
       try {
         const response = await axios.post('http://localhost:8080/api/users/register', {
-          username: this.username,
+          name: this.name,
           email: this.email,
           password: this.password
         });
@@ -69,7 +69,7 @@ export default {
     },
     clearFields() {
       // Alle velden leegmaken na een succesvolle registratie
-      this.username = '';
+      this.name = '';
       this.email = '';
       this.password = '';
       this.confirmPassword = '';
